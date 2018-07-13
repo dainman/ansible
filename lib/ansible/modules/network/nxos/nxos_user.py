@@ -229,13 +229,14 @@ def map_config_to_obj(module):
     objects = list()
 
     for item in to_list(data['TABLE_template']['ROW_template']):
-        objects.append({
-            'name': item['usr_name'],
-            'configured_password': parse_password(item),
-            'sshkey': item.get('sshkey_info'),
-            'roles': parse_roles(item),
-            'state': 'present'
-        })
+        if 'remote_login' not in item:
+            objects.append({
+                'name': item['usr_name'],
+                'configured_password': parse_password(item),
+                'sshkey': item.get('sshkey_info'),
+                'roles': parse_roles(item),
+                'state': 'present'
+            })
     return objects
 
 
